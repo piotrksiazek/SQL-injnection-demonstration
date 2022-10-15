@@ -9,16 +9,24 @@ export interface loginAndPassword{
 }
 
 export const Sql = (props: loginAndPassword) => {
+
+  const getWithQuotes = (input: string): string => {
+    if((input.split("'").length - 1) % 2 === 1){
+      return input + "'";
+    }
+    return input;
+  };
+
   const getSqlString = (typeOfProcessing: string): string => {
     if(typeOfProcessing === "Raw"){
       return `SELECT * FROM USERS WHERE login='${props.login}' AND password='${props.password}'`;
     }
     else if(typeOfProcessing === "Interpolated"){
-      return `.param set p0 '${props.login}'\n.param set p1 '${props.password}'\nSELECT * FROM Users WHERE Username=@p0 AND Password=@p1`
+      return `.param set p0 '${getWithQuotes(props.login)}'\n.param set p1 '${getWithQuotes(props.password)}'\nSELECT * FROM Users WHERE Username=@p0 AND Password=@p1`
     }
     else if(typeOfProcessing === "Orm"){
-      return `.param set @__username_0 '${props.login}'
-.param set @__password_1 '${props.password}'
+      return `.param set @__username_0 '${getWithQuotes(props.login)}'
+.param set @__password_1 '${getWithQuotes(props.password)}'
       
 SELECT "u"."Id", "u"."Password", "u"."Username"
 FROM "Users" AS "u"

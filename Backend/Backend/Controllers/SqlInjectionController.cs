@@ -28,6 +28,7 @@ namespace Backend.Controllers
         {
             var query = _context.Users.FromSqlInterpolated
                 ($"SELECT * FROM Users WHERE Username={username} AND Password={password}");
+            var querystring = query.ToQueryString();
             return query.ToList();
         }
 
@@ -35,6 +36,7 @@ namespace Backend.Controllers
         public IEnumerable<User> GetWithOrm(string username, string password)
         {
             var query = _context.Users.Where(user => user.Username == username && user.Password == password);
+            var queryString = query.ToQueryString();
             return query.ToList();
         }
     }

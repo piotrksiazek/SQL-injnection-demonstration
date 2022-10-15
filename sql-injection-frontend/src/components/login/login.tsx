@@ -2,6 +2,8 @@ import { Box, Button, FormControl, InputLabel, MenuItem, Paper, Select, SelectCh
 import React, { useState } from 'react';
 import { User } from '../../entities/user';
 import { Sql } from '../sql/sql';
+import ButtonAppBar from './appBar';
+import "./style.css"
 
 export const Login = () => {
     const baseUrl = "https://localhost:7050/SqlInjection/"
@@ -56,16 +58,20 @@ export const Login = () => {
 
     return (
         <div>
-            <h1>Logowanie</h1>
-            <input type="text" value={login} onChange={handleLogin}/>
-            <input type="text" value={password} onChange={handlePassword}/>
-            <div style={{textAlign:"left", width:"30%", margin:"auto"}}>
+            <ButtonAppBar></ButtonAppBar>
+            <input type="text" value={login} onChange={handleLogin} style={{margin: "20px"}}/>
+            <input type="text" value={password} onChange={handlePassword} style={{margin: "20px"}}/>
+            <div style={{textAlign:"left", width:"80%", margin:"auto"}}>
                 <Sql login={login} password={password} processing={typeOfProcessing}></Sql>
             </div>
             
-            <div style={{ display: 'flex',  alignItems: "center", justifyContent: "center"  }}>
+            <div style={{ display: 'flex',  alignItems: "center", justifyContent: "center", marginBottom: "20px"  }}>
                 <Button variant="outlined" onClick={getUnsafeResult}>Get</Button>
                 <Button variant="outlined" onClick={() => clearResult(setUsers)}>Clear</Button>
+            </div>
+
+            <div style={{ display: 'flex',  alignItems: "center", justifyContent: "center"  }}>
+                
                 <Box sx={{ minWidth: 120 }}>
                 <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">Processing</InputLabel>
